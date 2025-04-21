@@ -1,0 +1,14 @@
+ffmpeg -f lavfi \
+       -i testsrc=duration=180:size=1920x1080:rate=30 \
+       -f lavfi \
+       -i "sine=frequency=440:duration=180" \
+       -vf "drawtext=fontfile=/path/to/font.ttf:text='myVideo':fontcolor=black:fontsize=100:x=(w-text_w)/2:y=(h-text_h)/2-50,drawtext=fontfile=/path/to/font.ttf:text='%{eif\\:trunc((180-t)/60)\\:d}\\:%{eif\\:mod(180-t\\,60)\\:d\\:2}':fontcolor=black:fontsize=72:x=(w-text_w)/2:y=(h-text_h)/2+50,format=yuv420p" \
+       -c:v libx264 \
+       -crf 18 \
+       -preset veryfast \
+       -c:a aac \
+       -b:a 128k \
+       -map 0:v \
+       -map 1:a \
+       -t 180 \
+       myVideo_with_tone.mp4
