@@ -1,5 +1,8 @@
 This FFmpeg command generates a test video with SMPTE colour bars, a "myVideo" text overlay, a countdown timer, and a simple sine wave audio track - useful for creating basic test video files with an accompanying audio tone for various testing and calibration purposes.
 
+[![DOI](https://zenodo.org/badge/970003859.svg)](https://doi.org/10.5281/zenodo.15254857)
+
+
 ![image](https://github.com/user-attachments/assets/64767e63-12df-4a41-b1d4-afd4e440e265)
 
 ~~~```bash
