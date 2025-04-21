@@ -1,0 +1,35 @@
+@startuml
+skinparam sequenceArrowThickness 2
+skinparam roundcorner 10
+skinparam participantFontName Helvetica
+skinparam participantFontSize 14
+
+participant "Bash Command" as command
+participant "ffmpeg (Video)" as ffmpeg_v
+participant "ffmpeg (Audio)" as ffmpeg_a
+participant "ffmpeg (Muxer)" as ffmpeg_m
+
+command -> ffmpeg_v: **ffmpeg -f lavfi -i testsrc=...** \n (Generate video stream)
+activate ffmpeg_v
+ffmpeg_v -> ffmpeg_v: Generate test colour bars
+ffmpeg_v -> ffmpeg_v: Apply "myVideo" text overlay
+ffmpeg_v -> ffmpeg_v: Apply countdown timer overlay
+deactivate ffmpeg_v
+
+command -> ffmpeg_a: **-f lavfi -i sine=...** \n (Generate audio stream)
+activate ffmpeg_a
+ffmpeg_a -> ffmpeg_a: Generate sine wave audio
+deactivate ffmpeg_a
+
+ffmpeg_v -> ffmpeg_m: Video Stream
+ffmpeg_a -> ffmpeg_m: Audio Stream
+
+command -> ffmpeg_m: **-c:v libx264 ... -c:a aac ... -map 0:v -map 1:a ... myVideo_with_tone.mp4** \n (Encode and mux streams)
+activate ffmpeg_m
+ffmpeg_m -> ffmpeg_m: Encode video (libx264)
+ffmpeg_m -> ffmpeg_m: Encode audio (aac)
+ffmpeg_m -> ffmpeg_m: Mux video and audio streams
+ffmpeg_m --> command: **myVideo_with_tone.mp4**
+deactivate ffmpeg_m
+
+@enduml
